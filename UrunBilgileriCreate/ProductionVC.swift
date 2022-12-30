@@ -9,33 +9,33 @@ import UIKit
 import SnapKit
 
 class ProductionVC: UIViewController {
+   
+    
+
 
     lazy var scrollView = UIScrollView()
     lazy var arrayText1 = ["Kategori","Marka","Renk","Kargo Boyu"]
     lazy var arrayText2 = ["Ürünü kaça aldın","Ne kadara satıyorsun","Kazancın"]
+    lazy var arrayImage : [UIImage] = []
 
     lazy var tableView1 = UITableView()
     lazy var tableView2 = UITableView()
-
-    struct CellProduct {
-        static let rowCell = "Cell"
-    }
-    
-    struct CellPrice {
-        static let rowCell = "Cell2"
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
-        tableView1.dataSource = self
-        tableView1.delegate = self
-        tableView1.register(ProductionCell.self, forCellReuseIdentifier: CellProduct.rowCell)
+        
     }
     
     func setupUI(){
         
+        arrayImage.append(UIImage(named: "pic1")!)
+        arrayImage.append(UIImage(named: "pic2")!)
+        arrayImage.append(UIImage(named: "pic3")!)
+        arrayImage.append(UIImage(named: "pic4")!)
+
+
         lazy var accountHeader = UILabel()
         accountHeader.font = UIFont.systemFont(ofSize: 24)
         accountHeader.text = "Ürün Bilgileri"
@@ -91,18 +91,20 @@ class ProductionVC: UIViewController {
             make.height.equalTo(30)
         }
         
-        
-        lazy var collectionView = UILabel()
-        collectionView.backgroundColor = .white
-        collectionView.font = UIFont.systemFont(ofSize: 24)
-        collectionView.textColor = .black
+        let layout = UICollectionViewFlowLayout()
+        lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        layout.scrollDirection = .horizontal
         scrollView.addSubview(collectionView)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collection")
         collectionView.snp.makeConstraints { make in
+            make.width.equalTo(view)
+            make.leading.equalTo(view)
             make.top.equalTo(fotograflarLabel.snp.bottom).offset(12)
-            make.leading.equalTo(scrollView)
-            make.width.equalTo(scrollView)
             make.height.equalTo(100)
         }
+        
         
         lazy var pleaseLabel = UILabel()
         pleaseLabel.backgroundColor = .white
@@ -209,6 +211,9 @@ class ProductionVC: UIViewController {
             //make.width.equalTo(scrollView)
             make.height.equalTo(180)
         }
+        tableView1.dataSource = self
+        tableView1.delegate = self
+        tableView1.register(UITableViewCell.self, forCellReuseIdentifier: "cell1")
         
         lazy var usageLabel = UILabel()
         usageLabel.font = UIFont.systemFont(ofSize: 20)
@@ -450,6 +455,9 @@ class ProductionVC: UIViewController {
             //make.width.equalTo(scrollView)
             make.height.equalTo(180)
         }
+        tableView2.delegate = self
+        tableView2.dataSource = self
+        tableView2.register(UITableViewCell.self, forCellReuseIdentifier: "cell2")
         
         lazy var offerLabel = UILabel()
         offerLabel.font = UIFont.systemFont(ofSize: 20)
@@ -507,12 +515,7 @@ class ProductionVC: UIViewController {
             make.width.equalTo(view).offset(-40)
             make.height.equalTo(60)
         }
-        
-        
-        
-        
-        
-        
+    
         
     }
     
@@ -521,14 +524,47 @@ class ProductionVC: UIViewController {
         
         }
 }
-extension ProductionVC: UITableViewDelegate, UITableViewDataSource{
+extension ProductionVC: UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 8
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collection", for: indexPath)
+        cell.contentView.backgroundColor = .gray
+        return cell
+    }
+    
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return arrayText1.count
+       var numberOfRow = 1
+        switch tableView{
+        case tableView1:
+            numberOfRow = arrayText1.count
+        case tableView2:
+            numberOfRow = arrayText2.count
+        default:
+            print("row error")
+        }
+        return numberOfRow
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CellProduct.rowCell) as! ProductionCell
-        cell.cellLabel.text = arrayText1[indexPath.row]
+        var cell = UITableViewCell()
+        switch tableView{
+        case tableView1:
+            cell = tableView.dequeueReusableCell(withIdentifier: "cell1" , for: indexPath)
+            cell.textLabel?.text = arrayText1[indexPath.row]
+        case tableView2:
+            cell = tableView.dequeueReusableCell(withIdentifier: "cell2" , for: indexPath)
+            cell.textLabel?.text = arrayText2[indexPath.row]
+        default:
+            print("cell error")
+        }
+        
         return cell
         
     }
@@ -536,6 +572,11 @@ extension ProductionVC: UITableViewDelegate, UITableViewDataSource{
     
 }
 
+class collectionViewCell {
+    
+    var imageView = UIImageView()
+    
+}
 
 
 
