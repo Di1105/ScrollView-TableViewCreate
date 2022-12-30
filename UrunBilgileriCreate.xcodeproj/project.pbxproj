@@ -9,21 +9,24 @@
 /* Begin PBXBuildFile section */
 		C68ADC57295D8B0F004150E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68ADC56295D8B0F004150E0 /* AppDelegate.swift */; };
 		C68ADC59295D8B0F004150E0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68ADC58295D8B0F004150E0 /* SceneDelegate.swift */; };
-		C68ADC5B295D8B0F004150E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68ADC5A295D8B0F004150E0 /* ViewController.swift */; };
+		C68ADC5B295D8B0F004150E0 /* ProductionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68ADC5A295D8B0F004150E0 /* ProductionVC.swift */; };
 		C68ADC5E295D8B0F004150E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C68ADC5C295D8B0F004150E0 /* Main.storyboard */; };
 		C68ADC60295D8B11004150E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C68ADC5F295D8B11004150E0 /* Assets.xcassets */; };
 		C68ADC63295D8B11004150E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C68ADC61295D8B11004150E0 /* LaunchScreen.storyboard */; };
+		C68ADC6C295D8B6D004150E0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C68ADC6B295D8B6D004150E0 /* SnapKit */; };
+		C68ADC6E295DBDAF004150E0 /* ProductionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68ADC6D295DBDAF004150E0 /* ProductionCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C68ADC53295D8B0F004150E0 /* UrunBilgileriCreate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UrunBilgileriCreate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C68ADC56295D8B0F004150E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C68ADC58295D8B0F004150E0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C68ADC5A295D8B0F004150E0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C68ADC5A295D8B0F004150E0 /* ProductionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionVC.swift; sourceTree = "<group>"; };
 		C68ADC5D295D8B0F004150E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C68ADC5F295D8B11004150E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C68ADC62295D8B11004150E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C68ADC64295D8B11004150E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C68ADC6D295DBDAF004150E0 /* ProductionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C68ADC6C295D8B6D004150E0 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,7 +62,8 @@
 			children = (
 				C68ADC56295D8B0F004150E0 /* AppDelegate.swift */,
 				C68ADC58295D8B0F004150E0 /* SceneDelegate.swift */,
-				C68ADC5A295D8B0F004150E0 /* ViewController.swift */,
+				C68ADC5A295D8B0F004150E0 /* ProductionVC.swift */,
+				C68ADC6D295DBDAF004150E0 /* ProductionCell.swift */,
 				C68ADC5C295D8B0F004150E0 /* Main.storyboard */,
 				C68ADC5F295D8B11004150E0 /* Assets.xcassets */,
 				C68ADC61295D8B11004150E0 /* LaunchScreen.storyboard */,
@@ -83,6 +88,9 @@
 			dependencies = (
 			);
 			name = UrunBilgileriCreate;
+			packageProductDependencies = (
+				C68ADC6B295D8B6D004150E0 /* SnapKit */,
+			);
 			productName = UrunBilgileriCreate;
 			productReference = C68ADC53295D8B0F004150E0 /* UrunBilgileriCreate.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +119,9 @@
 				Base,
 			);
 			mainGroup = C68ADC4A295D8B0F004150E0;
+			packageReferences = (
+				C68ADC6A295D8B6D004150E0 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = C68ADC54295D8B0F004150E0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -138,8 +149,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C68ADC5B295D8B0F004150E0 /* ViewController.swift in Sources */,
+				C68ADC5B295D8B0F004150E0 /* ProductionVC.swift in Sources */,
 				C68ADC57295D8B0F004150E0 /* AppDelegate.swift in Sources */,
+				C68ADC6E295DBDAF004150E0 /* ProductionCell.swift in Sources */,
 				C68ADC59295D8B0F004150E0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,6 +370,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C68ADC6A295D8B6D004150E0 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C68ADC6B295D8B6D004150E0 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C68ADC6A295D8B6D004150E0 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C68ADC4B295D8B0F004150E0 /* Project object */;
 }
