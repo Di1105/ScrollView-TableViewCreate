@@ -97,7 +97,7 @@ class ProductionVC: UIViewController {
         scrollView.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collection")
+        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.identifier)
         collectionView.snp.makeConstraints { make in
             make.width.equalTo(view)
             make.leading.equalTo(view)
@@ -528,12 +528,11 @@ extension ProductionVC: UITableViewDelegate, UITableViewDataSource, UICollection
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return 18
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collection", for: indexPath)
-        cell.contentView.backgroundColor = .gray
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.identifier, for: indexPath)
         return cell
     }
     
@@ -572,9 +571,19 @@ extension ProductionVC: UITableViewDelegate, UITableViewDataSource, UICollection
     
 }
 
-class collectionViewCell {
+class CollectionViewCell: UICollectionViewCell {
     
-    var imageView = UIImageView()
+    static let identifier = "CustomCell"
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.backgroundColor = .blue
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
 }
 
