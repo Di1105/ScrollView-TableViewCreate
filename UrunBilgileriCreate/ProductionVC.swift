@@ -16,8 +16,11 @@ class ProductionVC: UIViewController, UIImagePickerControllerDelegate & UINaviga
     lazy var scrollView = UIScrollView()
     lazy var arrayText1 = ["Kategori","Marka","Renk","Kargo Boyu"]
     lazy var arrayText2 = ["Ürünü kaça aldın","Ne kadara satıyorsun","Kazancın"]
-    lazy var arrayImage = [UIImage(named: "tap")]
-    var photoImage = UIImage()
+    var photoImage = UIImageView()
+    var dataArray: [UIImage] = []
+    var imagePick = UIImage()
+    lazy var collectionView = UICollectionView()
+
 
     
     lazy var tableView1 = UITableView()
@@ -88,11 +91,12 @@ class ProductionVC: UIViewController, UIImagePickerControllerDelegate & UINaviga
             make.height.equalTo(30)
         }
         
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
         layout.itemSize = CGSize(width: (view.frame.size.width/4), height: (view.frame.size.width/4))
-        lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         scrollView.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -515,6 +519,7 @@ class ProductionVC: UIViewController, UIImagePickerControllerDelegate & UINaviga
             make.width.equalTo(view).offset(-40)
             make.height.equalTo(60)
         }
+        
     
         
     }
@@ -524,27 +529,29 @@ class ProductionVC: UIViewController, UIImagePickerControllerDelegate & UINaviga
         
         }
 }
+
 extension ProductionVC: UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       // return arrayImage.count
         return 8
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.identifier, for: indexPath) as! CollectionViewCell
-       // cell.imageView.image = arrayImage[indexPath.row]
         cell.layer.borderWidth = 1
         cell.layer.borderColor = UIColor.lightGray.cgColor
-      //  cell.isUserInteractionEnabled = true
-      //  let gesture = UITapGestureRecognizer(target: self, action: #selector(selectPhoto))
-      //  cell.addGestureRecognizer(gesture)
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(selectPhoto))
+        cell.isUserInteractionEnabled = true
+        collectionView.addGestureRecognizer(gesture)
+        cell.imageView1.image = imagePick
+        
+               
+
         return cell
     }
     
-  /*
+  
     @objc func selectPhoto(){
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -554,11 +561,13 @@ extension ProductionVC: UITableViewDelegate, UITableViewDataSource, UICollection
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-           photoImage = info[.originalImage] as! UIImage
-            arrayImage.append(photoImage)
-           self.dismiss(animated: true)
-       }
-    */
+        imagePick = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        self.collectionView.reloadData()
+
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        var numberOfRow = 1
@@ -596,12 +605,12 @@ extension ProductionVC: UITableViewDelegate, UITableViewDataSource, UICollection
 class CollectionViewCell: UICollectionViewCell {
     
     static let identifier = "CustomCell"
-    var imageView = UIImageView()
-    
+    var imageView1 = UIImageView()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .white
-        contentView.addSubview(imageView)
+        contentView.addSubview(imageView1)
     }
     
     required init?(coder: NSCoder) {
@@ -611,8 +620,12 @@ class CollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        imageView.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
-        imageView.clipsToBounds = true
+       
+        imageView1.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
+        imageView1.layer.borderWidth = 1
+        imageView1.layer.borderColor = UIColor.lightGray.cgColor
+       // imageView1.image = UIImage(named: "pic2")
+        imageView1.clipsToBounds = true
     }
     
 }
