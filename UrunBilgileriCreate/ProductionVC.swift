@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ProductionVC: UIViewController {
+class ProductionVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
    
     
 
@@ -16,8 +16,10 @@ class ProductionVC: UIViewController {
     lazy var scrollView = UIScrollView()
     lazy var arrayText1 = ["Kategori","Marka","Renk","Kargo Boyu"]
     lazy var arrayText2 = ["Ürünü kaça aldın","Ne kadara satıyorsun","Kazancın"]
-    lazy var arrayImage : [UIImage] = []
+    lazy var arrayImage = [UIImage(named: "tap")]
+    var photoImage = UIImage()
 
+    
     lazy var tableView1 = UITableView()
     lazy var tableView2 = UITableView()
     
@@ -25,16 +27,10 @@ class ProductionVC: UIViewController {
         super.viewDidLoad()
         
         setupUI()
-        
+        view.backgroundColor = .white
     }
     
     func setupUI(){
-        
-        arrayImage.append(UIImage(named: "pic1")!)
-        arrayImage.append(UIImage(named: "pic2")!)
-        arrayImage.append(UIImage(named: "pic3")!)
-        arrayImage.append(UIImage(named: "pic4")!)
-
 
         lazy var accountHeader = UILabel()
         accountHeader.font = UIFont.systemFont(ofSize: 24)
@@ -49,7 +45,8 @@ class ProductionVC: UIViewController {
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(accountHeader.snp.bottom).offset(16)
-            make.bottom.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.snp.bottom).offset(-100)
         }
         scrollView.contentSize = CGSize(width: view.frame.size.width, height: view.frame.size.height*1.4)
         scrollView.backgroundColor = .white
@@ -62,7 +59,7 @@ class ProductionVC: UIViewController {
         scrollView.addSubview(fotograflarLabel)
         fotograflarLabel.snp.makeConstraints { make in
             make.top.equalTo(scrollView.snp.top).offset(12)
-            make.leading.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().offset(16)
             make.height.equalTo(30)
         }
         
@@ -82,7 +79,7 @@ class ProductionVC: UIViewController {
         lazy var duzenleButton = UIButton()
         duzenleButton.setTitle("Düzenle", for: .normal)
         duzenleButton.titleLabel?.font = .systemFont(ofSize: 20)
-        duzenleButton.setTitleColor(.green, for: .normal)
+        duzenleButton.setTitleColor(.systemMint, for: .normal)
         scrollView.addSubview(duzenleButton)
         duzenleButton.snp.makeConstraints { make in
             make.centerY.equalTo(fotograflarLabel)
@@ -92,17 +89,19 @@ class ProductionVC: UIViewController {
         }
         
         let layout = UICollectionViewFlowLayout()
-        lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 10
+        layout.itemSize = CGSize(width: (view.frame.size.width/4), height: (view.frame.size.width/4))
+        lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         scrollView.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.identifier)
         collectionView.snp.makeConstraints { make in
-            make.width.equalTo(view)
-            make.leading.equalTo(view)
+            make.width.equalTo(view).offset(-32)
+            make.centerX.equalToSuperview()
             make.top.equalTo(fotograflarLabel.snp.bottom).offset(12)
-            make.height.equalTo(100)
+            make.height.equalTo(120)
         }
         
         
@@ -114,7 +113,7 @@ class ProductionVC: UIViewController {
         scrollView.addSubview(pleaseLabel)
         pleaseLabel.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(12)
-            make.leading.equalTo(scrollView).offset(20)
+            make.leading.equalTo(fotograflarLabel)
             make.width.equalTo(scrollView)
             make.height.equalTo(20)
         }
@@ -125,8 +124,8 @@ class ProductionVC: UIViewController {
         productHeaderLabel.textColor = .black
         scrollView.addSubview(productHeaderLabel)
         productHeaderLabel.snp.makeConstraints { make in
-            make.top.equalTo(pleaseLabel.snp.bottom).offset(12)
-            make.leading.equalToSuperview().offset(20)
+            make.top.equalTo(pleaseLabel.snp.bottom).offset(20)
+            make.leading.equalTo(fotograflarLabel)
             make.height.equalTo(30)
         }
         
@@ -150,7 +149,7 @@ class ProductionVC: UIViewController {
         scrollView.addSubview(productInfoLabel)
         productInfoLabel.snp.makeConstraints { make in
             make.top.equalTo(productHeaderLabel.snp.bottom).offset(12)
-            make.leading.equalTo(scrollView).offset(20)
+            make.leading.equalTo(fotograflarLabel)
             make.width.equalTo(scrollView)
             make.height.equalTo(20)
         }
@@ -162,8 +161,8 @@ class ProductionVC: UIViewController {
         explanationLabel.textColor = .black
         scrollView.addSubview(explanationLabel)
         explanationLabel.snp.makeConstraints { make in
-            make.top.equalTo(productInfoLabel.snp.bottom).offset(12)
-            make.leading.equalToSuperview().offset(20)
+            make.top.equalTo(productInfoLabel.snp.bottom).offset(20)
+            make.leading.equalTo(fotograflarLabel)
             make.height.equalTo(30)
         }
         
@@ -175,7 +174,7 @@ class ProductionVC: UIViewController {
         scrollView.addSubview(explainInfoLabel)
         explainInfoLabel.snp.makeConstraints { make in
             make.top.equalTo(explanationLabel.snp.bottom).offset(12)
-            make.leading.equalTo(scrollView).offset(20)
+            make.leading.equalTo(fotograflarLabel)
             make.width.equalTo(scrollView)
             make.height.equalTo(20)
         }
@@ -188,7 +187,7 @@ class ProductionVC: UIViewController {
         scrollView.addSubview(explanationLabel2)
         explanationLabel2.snp.makeConstraints { make in
             make.top.equalTo(explainInfoLabel.snp.bottom)
-            make.leading.equalTo(scrollView).offset(20)
+            make.leading.equalTo(fotograflarLabel)
             make.width.equalTo(scrollView)
             make.height.equalTo(20)
         }
@@ -199,8 +198,8 @@ class ProductionVC: UIViewController {
         detailsLabel.textColor = .black
         scrollView.addSubview(detailsLabel)
         detailsLabel.snp.makeConstraints { make in
-            make.top.equalTo(explanationLabel2.snp.bottom).offset(12)
-            make.leading.equalToSuperview().offset(20)
+            make.top.equalTo(explanationLabel2.snp.bottom).offset(20)
+            make.leading.equalTo(fotograflarLabel)
             make.height.equalTo(30)
         }
         
@@ -208,7 +207,6 @@ class ProductionVC: UIViewController {
         tableView1.snp.makeConstraints { make in
             make.top.equalTo(detailsLabel.snp.bottom).offset(12)
             make.leading.trailing.equalTo(view)
-            //make.width.equalTo(scrollView)
             make.height.equalTo(180)
         }
         tableView1.dataSource = self
@@ -221,15 +219,15 @@ class ProductionVC: UIViewController {
         usageLabel.textColor = .black
         scrollView.addSubview(usageLabel)
         usageLabel.snp.makeConstraints { make in
-            make.top.equalTo(tableView1.snp.bottom).offset(12)
-            make.leading.equalToSuperview().offset(20)
+            make.top.equalTo(tableView1.snp.bottom).offset(20)
+            make.leading.equalTo(fotograflarLabel)
             make.height.equalTo(30)
         }
         
         lazy var infoButton = UIButton()
         infoButton.setImage(UIImage(named: "info"), for: .normal)
         infoButton.titleLabel?.font = .systemFont(ofSize: 20)
-        infoButton.setTitleColor(.green, for: .normal)
+        infoButton.tintColor = .systemMint
         scrollView.addSubview(infoButton)
         infoButton.snp.makeConstraints { make in
             make.top.equalTo(usageLabel)
@@ -246,9 +244,9 @@ class ProductionVC: UIViewController {
         clickButton.layer.cornerRadius = 10
         clickButton.tintColor = .white
         clickButton.layer.borderWidth = 3
-        view.addSubview(clickButton)
+        scrollView.addSubview(clickButton)
         clickButton.snp.makeConstraints { make in
-            make.top.equalTo(usageLabel.snp.bottom).offset(12)
+            make.top.equalTo(usageLabel.snp.bottom).offset(20)
             make.leading.equalTo(usageLabel.snp.leading)
             make.width.equalTo(20)
             make.height.equalTo(20)
@@ -276,7 +274,7 @@ class ProductionVC: UIViewController {
         clickButton2.layer.cornerRadius = 10
         clickButton2.tintColor = .white
         clickButton2.layer.borderWidth = 3
-        view.addSubview(clickButton2)
+        scrollView.addSubview(clickButton2)
         clickButton2.snp.makeConstraints { make in
             make.centerY.equalTo(usageInfoLabel)
             make.leading.equalTo(usageInfoLabel.snp.trailing).offset(20)
@@ -306,7 +304,7 @@ class ProductionVC: UIViewController {
         clickButton3.layer.cornerRadius = 10
         clickButton3.tintColor = .white
         clickButton3.layer.borderWidth = 3
-        view.addSubview(clickButton3)
+        scrollView.addSubview(clickButton3)
         clickButton3.snp.makeConstraints { make in
             make.centerY.equalTo(usageInfoLabel2)
             make.leading.equalTo(usageInfoLabel2.snp.trailing).offset(20)
@@ -334,18 +332,18 @@ class ProductionVC: UIViewController {
         cargoLabel.textColor = .black
         scrollView.addSubview(cargoLabel)
         cargoLabel.snp.makeConstraints { make in
-            make.top.equalTo(clickButton3.snp.bottom).offset(12)
-            make.leading.equalToSuperview().offset(20)
+            make.top.equalTo(clickButton3.snp.bottom).offset(20)
+            make.leading.equalTo(fotograflarLabel)
             make.height.equalTo(30)
         }
         
         lazy var infoButton2 = UIButton()
         infoButton2.setImage(UIImage(named: "info2"), for: .normal)
         infoButton2.titleLabel?.font = .systemFont(ofSize: 20)
-        infoButton2.setTitleColor(.green, for: .normal)
+        infoButton2.tintColor = .systemMint
         scrollView.addSubview(infoButton2)
         infoButton2.snp.makeConstraints { make in
-            make.top.equalTo(cargoLabel.snp.bottom).offset(12)
+            make.top.equalTo(cargoLabel.snp.bottom).offset(20)
             make.leading.equalTo(cargoLabel)
             make.width.equalTo(30)
             make.height.equalTo(30)
@@ -371,8 +369,8 @@ class ProductionVC: UIViewController {
         cargoWhoLabel.textColor = .black
         scrollView.addSubview(cargoWhoLabel)
         cargoWhoLabel.snp.makeConstraints { make in
-            make.top.equalTo(infoLabel.snp.bottom).offset(10)
-            make.leading.equalToSuperview().offset(20)
+            make.top.equalTo(infoLabel.snp.bottom).offset(20)
+            make.leading.equalTo(fotograflarLabel)
             make.height.equalTo(30)
         }
         
@@ -384,9 +382,9 @@ class ProductionVC: UIViewController {
         cargoClickButton.layer.cornerRadius = 10
         cargoClickButton.tintColor = .white
         cargoClickButton.layer.borderWidth = 3
-        view.addSubview(cargoClickButton)
+        scrollView.addSubview(cargoClickButton)
         cargoClickButton.snp.makeConstraints { make in
-            make.top.equalTo(cargoWhoLabel.snp.bottom).offset(10)
+            make.top.equalTo(cargoWhoLabel.snp.bottom).offset(20)
             make.leading.equalTo(cargoWhoLabel)
             make.width.equalTo(20)
             make.height.equalTo(20)
@@ -410,12 +408,13 @@ class ProductionVC: UIViewController {
         lazy var cargoClickButton2 = UIButton()
         cargoClickButton2.setTitleColor(.gray, for: .normal)
         cargoClickButton2.layer.cornerRadius = 12
-        //clickButton.layer.borderColor = UIColor.neutralLight2.cgColor
+        clickButton.layer.borderColor = UIColor.black.cgColor
         cargoClickButton2.backgroundColor = .white
         cargoClickButton2.layer.cornerRadius = 10
         cargoClickButton2.tintColor = .white
         cargoClickButton2.layer.borderWidth = 3
-        view.addSubview(cargoClickButton2)
+        
+        scrollView.addSubview(cargoClickButton2)
         cargoClickButton2.snp.makeConstraints { make in
             make.centerY.equalTo(cargoInfoLabel)
             make.leading.equalTo(cargoInfoLabel.snp.trailing).offset(20)
@@ -443,8 +442,8 @@ class ProductionVC: UIViewController {
         priceLabel.textColor = .black
         scrollView.addSubview(priceLabel)
         priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(cargoClickButton.snp.bottom).offset(12)
-            make.leading.equalToSuperview().offset(20)
+            make.top.equalTo(cargoClickButton.snp.bottom).offset(20)
+            make.leading.equalTo(fotograflarLabel)
             make.height.equalTo(30)
         }
         
@@ -465,15 +464,15 @@ class ProductionVC: UIViewController {
         offerLabel.textColor = .black
         scrollView.addSubview(offerLabel)
         offerLabel.snp.makeConstraints { make in
-            make.top.equalTo(tableView2.snp.bottom).offset(12)
-            make.leading.equalToSuperview().offset(20)
+            make.top.equalTo(tableView2.snp.bottom).offset(8)
+            make.leading.equalTo(fotograflarLabel)
             make.height.equalTo(30)
         }
         
         lazy var offerButton = UIButton()
         offerButton.setImage(UIImage(named: "info"), for: .normal)
         offerButton.titleLabel?.font = .systemFont(ofSize: 20)
-        //offerLabel.setTitleColor(.green, for: .normal)
+        offerButton.tintColor = .systemMint
         scrollView.addSubview(offerButton)
         offerButton.snp.makeConstraints { make in
             make.top.equalTo(offerLabel)
@@ -495,6 +494,7 @@ class ProductionVC: UIViewController {
         
         lazy var switch1 = UISwitch()
         switch1.setOn(true, animated: false)
+        switch1.onTintColor = .systemMint
         scrollView.addSubview(switch1)
         switch1.snp.makeConstraints { make in
             make.centerY.equalTo(offerLabel2)
@@ -508,9 +508,9 @@ class ProductionVC: UIViewController {
         confirmButton.titleLabel?.font = .systemFont(ofSize: 20)
         confirmButton.backgroundColor = .systemMint
         confirmButton.layer.cornerRadius = 30
-        scrollView.addSubview(confirmButton)
+        view.addSubview(confirmButton)
         confirmButton.snp.makeConstraints { make in
-            make.top.equalTo(offerLabel2.snp.bottom).offset(30)
+            make.bottom.equalTo(view.snp.bottom).offset(-30)
             make.centerX.equalTo(view)
             make.width.equalTo(view).offset(-40)
             make.height.equalTo(60)
@@ -520,7 +520,7 @@ class ProductionVC: UIViewController {
     }
     
     @objc func clickButtonDidSelected(_ sender: UIButton){
-            sender.backgroundColor = sender.backgroundColor == UIColor.white ? UIColor.systemGreen : UIColor.white
+            sender.backgroundColor = sender.backgroundColor == UIColor.white ? UIColor.systemMint: UIColor.white
         
         }
 }
@@ -528,15 +528,37 @@ extension ProductionVC: UITableViewDelegate, UITableViewDataSource, UICollection
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 18
+       // return arrayImage.count
+        return 8
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.identifier, for: indexPath)
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.identifier, for: indexPath) as! CollectionViewCell
+       // cell.imageView.image = arrayImage[indexPath.row]
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor.lightGray.cgColor
+      //  cell.isUserInteractionEnabled = true
+      //  let gesture = UITapGestureRecognizer(target: self, action: #selector(selectPhoto))
+      //  cell.addGestureRecognizer(gesture)
         return cell
     }
     
+  /*
+    @objc func selectPhoto(){
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        present(picker, animated: true)
+    }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+           photoImage = info[.originalImage] as! UIImage
+            arrayImage.append(photoImage)
+           self.dismiss(animated: true)
+       }
+    */
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        var numberOfRow = 1
@@ -574,16 +596,24 @@ extension ProductionVC: UITableViewDelegate, UITableViewDataSource, UICollection
 class CollectionViewCell: UICollectionViewCell {
     
     static let identifier = "CustomCell"
+    var imageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .blue
+        contentView.backgroundColor = .white
+        contentView.addSubview(imageView)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        imageView.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
+        imageView.clipsToBounds = true
+    }
     
 }
 
