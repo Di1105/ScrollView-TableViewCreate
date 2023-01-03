@@ -17,9 +17,10 @@ class ProductionVC: UIViewController, UIImagePickerControllerDelegate & UINaviga
     lazy var arrayText1 = ["Kategori","Marka","Renk","Kargo Boyu"]
     lazy var arrayText2 = ["Ürünü kaça aldın","Ne kadara satıyorsun","Kazancın"]
     var photoImage = UIImageView()
-    var dataArray: [UIImage] = []
+    var dataArray: [UIImage] = [UIImage(named: "tap")!]
     var imagePick = UIImage()
     lazy var collectionView = UICollectionView()
+    var selectRow = 0
 
 
     
@@ -534,19 +535,43 @@ extension ProductionVC: UITableViewDelegate, UITableViewDataSource, UICollection
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.identifier, for: indexPath) as! CollectionViewCell
-        cell.layer.borderWidth = 1
-        cell.layer.borderColor = UIColor.lightGray.cgColor
         let gesture = UITapGestureRecognizer(target: self, action: #selector(selectPhoto))
         cell.isUserInteractionEnabled = true
         collectionView.addGestureRecognizer(gesture)
-        cell.imageView1.image = imagePick
         
-               
+        for _ in 0...4{
+            if selectRow == 0{
+                cell.imageView1.image = dataArray[0]
+            }else if selectRow == 1{
+                cell.imageView2.image = dataArray[0]
+                cell.imageView1.image = dataArray[selectRow]
+            }else if selectRow == 2{
+                cell.imageView3.image = dataArray[0]
+                cell.imageView2.image = dataArray[1]
+                cell.imageView1.image = dataArray[selectRow]
+            }else if selectRow == 3{
+                cell.imageView4.image = dataArray[0]
+                cell.imageView3.image = dataArray[1]
+                cell.imageView2.image = dataArray[2]
+                cell.imageView1.image = dataArray[selectRow]
+            }else if selectRow == 4{
+                cell.imageView4.image = dataArray[1]
+                cell.imageView3.image = dataArray[2]
+                cell.imageView2.image = dataArray[3]
+                cell.imageView1.image = dataArray[selectRow]
+            }else{
+               print("end")
+            }
+        }
+       
+       
+       
+        
 
         return cell
     }
@@ -561,9 +586,13 @@ extension ProductionVC: UITableViewDelegate, UITableViewDataSource, UICollection
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        selectRow = selectRow + 1
         imagePick = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        dataArray.append(imagePick)
         self.collectionView.reloadData()
-
+        if selectRow == 5{
+            selectRow = 0
+        }
         picker.dismiss(animated: true, completion: nil)
     }
     
@@ -606,11 +635,21 @@ class CollectionViewCell: UICollectionViewCell {
     
     static let identifier = "CustomCell"
     var imageView1 = UIImageView()
+    var imageView2 = UIImageView()
+    var imageView3 = UIImageView()
+    var imageView4 = UIImageView()
+
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .white
         contentView.addSubview(imageView1)
+        contentView.addSubview(imageView2)
+        contentView.addSubview(imageView3)
+        contentView.addSubview(imageView4)
+
+        
     }
     
     required init?(coder: NSCoder) {
@@ -626,6 +665,30 @@ class CollectionViewCell: UICollectionViewCell {
         imageView1.layer.borderColor = UIColor.lightGray.cgColor
        // imageView1.image = UIImage(named: "pic2")
         imageView1.clipsToBounds = true
+        imageView1.layer.borderWidth = 1
+        imageView1.layer.borderColor = UIColor.lightGray.cgColor
+        
+        imageView2.frame = CGRect(x: contentView.frame.size.width+10, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
+        imageView2.layer.borderWidth = 1
+        imageView2.layer.borderColor = UIColor.lightGray.cgColor
+        imageView2.clipsToBounds = true
+        imageView2.layer.borderWidth = 1
+        imageView2.layer.borderColor = UIColor.lightGray.cgColor
+        
+        imageView3.frame = CGRect(x: 2*(contentView.frame.size.width+10), y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
+        imageView3.layer.borderWidth = 1
+        imageView3.layer.borderColor = UIColor.lightGray.cgColor
+        imageView3.clipsToBounds = true
+        imageView3.layer.borderWidth = 1
+        imageView3.layer.borderColor = UIColor.lightGray.cgColor
+        
+        imageView4.frame = CGRect(x: 3*(contentView.frame.size.width+10), y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
+        imageView4.layer.borderWidth = 1
+        imageView4.layer.borderColor = UIColor.lightGray.cgColor
+       // imageView1.image = UIImage(named: "pic2")
+        imageView4.clipsToBounds = true
+        imageView4.layer.borderWidth = 1
+        imageView4.layer.borderColor = UIColor.lightGray.cgColor
     }
     
 }
